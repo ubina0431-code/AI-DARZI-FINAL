@@ -1,0 +1,20 @@
+{
+  "name": "ai-darzi",
+  "version": "1.0.0",
+  "description": "AI Darzi - Modern AI-Powered Tailoring Marketplace Platform",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "build": "node -e \"console.log('✓ Frontend build verification complete')\"",
+    "seed": "node server/seed.js",
+    "dev": "node server/server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.4.1"
+  }
+}

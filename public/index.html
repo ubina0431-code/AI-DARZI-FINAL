@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Darzi — Modern AI-Powered Tailoring Marketplace</title>
+  <meta name="description" content="AI Darzi connects customers with verified master tailors. Remote AI measurements, text-to-fashion design studio, 13-stage order tracking, and doorstep delivery.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪡</text></svg>">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <nav class="navbar" id="mainNavbar">
+    <div class="brand-wrapper" onclick="window.navigateTo('home')">
+      <div class="brand-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+      </div>
+      <div class="brand-title">
+        AI DARZI <span>Bespoke</span>
+      </div>
+    </div>
+
+    <ul class="nav-links">
+      <li><a class="nav-link active" onclick="window.navigateTo('home')" data-nav="home">Home</a></li>
+      <li><a class="nav-link" onclick="window.navigateTo('tailors')" data-nav="tailors">Explore Tailors</a></li>
+      <li><a class="nav-link" onclick="window.navigateTo('design')" data-nav="design">AI Design Studio</a></li>
+      <li><a class="nav-link" onclick="window.navigateTo('measure')" data-nav="measure">Remote Measure</a></li>
+      <li><a class="nav-link" onclick="window.navigateTo('orders')" data-nav="orders">My Orders</a></li>
+      <li><a class="nav-link" onclick="window.navigateTo('chat')" data-nav="chat">AI & Chat</a></li>
+    </ul>
+
+    <div class="nav-controls">
+      <!-- Role Switcher -->
+      <div class="role-pill-group">
+        <button class="role-btn active" id="roleCustomerBtn" onclick="window.setRole('customer')">Customer</button>
+        <button class="role-btn" id="roleTailorBtn" onclick="window.setRole('tailor')">Tailor</button>
+        <button class="role-btn" id="roleAdminBtn" onclick="window.setRole('admin')">Admin</button>
+      </div>
+
+      <!-- Language Selector -->
+      <select class="lang-selector" id="languageSelect" onchange="window.setLanguage(this.value)">
+        <option value="en">English</option>
+        <option value="ru">Roman Urdu</option>
+        <option value="ur">اردو (Urdu)</option>
+      </select>
+
+      <!-- Auth Status / Account Button -->
+      <div id="authNavContainer" style="display: flex; align-items: center; gap: 0.5rem;">
+        <button class="btn btn-primary btn-sm" id="navLoginBtn" onclick="window.openAuthModal('login')">
+          🔑 Login / Sign Up
+        </button>
+        <div id="navUserBadge" style="display: none; align-items: center; gap: 0.5rem;">
+          <span class="user-pill" id="navUserName" style="font-weight: 600; font-size: 0.85rem; padding: 0.35rem 0.75rem; background: var(--primary-50); border: 1px solid var(--border-gold); border-radius: var(--radius-full); cursor: default;">👤 Amina Khan</span>
+          <button class="btn btn-outline-dark btn-sm" onclick="window.logoutUser()" title="Logout" style="padding: 0.25rem 0.6rem; font-size: 0.78rem;">Logout</button>
+        </div>
+      </div>
+
+      <!-- Theme Switcher -->
+      <button class="icon-btn" onclick="window.toggleDarkMode()" title="Toggle Dark/Light Mode" id="themeToggleBtn">
+        🌙
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main View Container -->
+  <main class="container">
+
+    <!-- 1. HOME / LANDING VIEW -->
+    <section class="app-view active" id="view-home">
+      <!-- Hero Banner -->
+      <div class="hero-banner">
+        <div class="hero-content">
+          <div class="hero-badge">
+            ✨ AI-Powered Bespoke Tailoring Marketplace
+          </div>
+          <h1 class="hero-title" id="heroTitle">
+            Your Tailor. Your Measurements. Your Design. <em>From Home.</em>
+          </h1>
+          <p class="hero-subtitle" id="heroSubtitle">
+            Connect with verified master tailors across Pakistan, generate high-fashion bespoke designs with Google Gemini AI, measure from home with camera pose scanning, and track your stitching through 13 live stages.
+          </p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" onclick="window.navigateTo('design')" id="btnHeroCreate">
+              🎨 Create AI Design
+            </button>
+            <button class="btn btn-outline" onclick="window.navigateTo('tailors')" id="btnHeroFind">
+              🔍 Find a Tailor
+            </button>
+            <button class="btn btn-emerald" onclick="window.navigateTo('measure')" id="btnHeroMeasure">
+              📏 Measure Myself
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Privacy-First Women's Guarantee Card -->
+      <div class="privacy-alert-box">
+        <div class="privacy-icon">🛡️</div>
+        <div class="privacy-text">
+          <h4 id="privacyHeading">100% Privacy-First Guarantee</h4>
+          <p id="privacyText">
+            Raw camera photos and body landmark captures are strictly private and never shared with tailors. Only verified, sanitized clothing measurements and design specifications reach the tailor.
+          </p>
+        </div>
+      </div>
+
+      <!-- How It Works Section -->
+      <div class="section-title-wrap">
+        <div class="section-eyebrow">Four Simple Steps</div>
+        <h2 class="section-heading">How <em>AI Darzi</em> Works</h2>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">01</div>
+          <h3 id="step1Title">Choose or Create Design</h3>
+          <p id="step1Desc">Use text prompts, select Pakistani fabrics & cuts, or upload reference photos for AI breakdown.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">02</div>
+          <h3 id="step2Title">Measure from Home</h3>
+          <p id="step2Desc">Use AI camera pose scan, measure from well-fitting clothes, or select from your saved wallet.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">03</div>
+          <h3 id="step3Title">Connect & Book Tailor</h3>
+          <p id="step3Desc">Compare verified master tailors by customer reviews, clear PKR prices, and turnaround times.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">04</div>
+          <h3 id="step4Title">Track & Doorstep Delivery</h3>
+          <p id="step4Desc">Watch your suit progress through 13 stages: cutting, stitching, quality check, and home delivery.</p>
+        </div>
+      </div>
+
+      <!-- Featured Master Tailors -->
+      <div class="section-title-wrap">
+        <div class="section-eyebrow">Verified Masters</div>
+        <h2 class="section-heading">Featured <em>Master Tailors</em></h2>
+      </div>
+      <div class="tailors-grid" id="homeFeaturedTailors">
+        <!-- Injected via JavaScript -->
+      </div>
+    </section>
+
+    <!-- 2. TAILORS MARKETPLACE VIEW -->
+    <section class="app-view" id="view-tailors">
+      <div class="section-title-wrap" style="text-align: left; margin-bottom: 1.5rem;">
+        <div class="section-eyebrow">Marketplace</div>
+        <h2 class="section-heading">Discover Verified <em>Master Tailors</em></h2>
+        <p style="color: var(--text-secondary); margin-top: 0.25rem;">
+          Specialists in Ladies Lawn, Bridal Lehengas, Gents Kurta Shalwar, Waistcoats, and Alterations across Pakistan.
+        </p>
+      </div>
+
+      <!-- Filters Bar -->
+      <div class="filters-bar">
+        <div class="search-input-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-input" id="tailorSearchInput" placeholder="Search by tailor name, area, or specialty..." oninput="window.filterTailors()">
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+          <select class="form-select" id="cityFilter" onchange="window.filterTailors()" style="border-radius: var(--radius-full);">
+            <option value="All">All Cities</option>
+            <option value="Karachi">Karachi</option>
+            <option value="Lahore">Lahore</option>
+            <option value="Islamabad">Islamabad</option>
+          </select>
+
+          <select class="form-select" id="sortFilter" onchange="window.filterTailors()" style="border-radius: var(--radius-full);">
+            <option value="rating">Top Rated</option>
+            <option value="price_asc">Price: Low to High</option>
+            <option value="orders">Most Orders</option>
+          </select>
+
+          <label style="font-size: 0.82rem; display: flex; align-items: center; gap: 0.35rem; cursor: pointer;">
+            <input type="checkbox" id="pickupFilter" onchange="window.filterTailors()"> Pickup Available
+          </label>
+        </div>
+      </div>
+
+      <!-- Specialty Filter Chips -->
+      <div class="filter-chips" style="margin-bottom: 1.5rem;">
+        <button class="chip active" onclick="window.setCategoryFilter('All', this)">All Categories</button>
+        <button class="chip" onclick="window.setCategoryFilter('ladies', this)">Ladies 3-Piece</button>
+        <button class="chip" onclick="window.setCategoryFilter('gents', this)">Gents Kurta</button>
+        <button class="chip" onclick="window.setCategoryFilter('bridal', this)">Bridal & Formal</button>
+        <button class="chip" onclick="window.setCategoryFilter('alterations', this)">Alterations</button>
+      </div>
+
+      <!-- Tailors Grid -->
+      <div class="tailors-grid" id="tailorsMarketplaceGrid">
+        <!-- Injected via JavaScript -->
+      </div>
+    </section>
+
+    <!-- 3. AI DESIGN STUDIO VIEW -->
+    <section class="app-view" id="view-design">
+      <div class="section-title-wrap" style="text-align: left; margin-bottom: 1.5rem;">
+        <div class="section-eyebrow">Gemini AI Studio</div>
+        <h2 class="section-heading">AI Fashion & <em>Design Studio</em></h2>
+        <p style="color: var(--text-secondary); margin-top: 0.25rem;">
+          Generate custom Pakistani fashion concepts or turn any reference photograph into tailor-ready construction instructions.
+        </p>
+      </div>
+
+      <div class="ai-studio-layout">
+        <!-- Left Panel: Form & Modifiers -->
+        <div>
+          <!-- Tab selector for Text-to-Fashion vs Vision Photo Breakdown -->
+          <div class="measurement-tabs">
+            <button class="tab-btn active" id="tabDesignPromptBtn" onclick="window.switchDesignTab('prompt')">Text-to-Fashion</button>
+            <button class="tab-btn" id="tabDesignVisionBtn" onclick="window.switchDesignTab('vision')">Turn Picture into Design (Vision)</button>
+          </div>
+
+          <!-- Tab A: Text Prompt Mode -->
+          <div class="panel-card" id="designPromptPanel">
+            <h3 class="panel-title">Describe Your Dream Outfit</h3>
+            <p class="panel-subtitle">Write what you'd like or customize specific cuts and embellishments below.</p>
+            
+            <textarea class="prompt-area" id="designPromptInput" placeholder="e.g. Create a luxury 3-piece Eid lawn suit in emerald green with resham sleeve embroidery, straight pants, and organza dupatta border..."></textarea>
+
+            <div class="attr-grid">
+              <div class="form-group">
+                <label class="form-label">Category / Gender</label>
+                <select class="form-select" id="designGender">
+                  <option value="ladies">Ladies</option>
+                  <option value="gents">Gents</option>
+                  <option value="kids">Kids</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Garment Type</label>
+                <select class="form-select" id="designGarmentType">
+                  <option value="3-Piece Lawn Suit">3-Piece Lawn Suit</option>
+                  <option value="2-Piece Kurti Trouser">2-Piece Kurti Trouser</option>
+                  <option value="Kalidar Frock / Maxi">Kalidar Frock / Maxi</option>
+                  <option value="Gents Kurta Shalwar">Gents Kurta Shalwar</option>
+                  <option value="Waistcoat / Prince Coat">Waistcoat / Prince Coat</option>
+                  <option value="Bridal Lehenga Choli">Bridal Lehenga Choli</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Fabric</label>
+                <select class="form-select" id="designFabric">
+                  <option value="Premium Lawn">Premium Lawn</option>
+                  <option value="Pure Cotton">Pure Cotton</option>
+                  <option value="Chiffon">Chiffon</option>
+                  <option value="Silk">Silk</option>
+                  <option value="Micro Velvet">Micro Velvet</option>
+                  <option value="Khaddar / Karandi">Khaddar / Karandi</option>
+                  <option value="Boski Silk">Boski Silk (Gents)</option>
+                  <option value="Wash & Wear">Wash & Wear (Gents)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Neckline / Collar</label>
+                <select class="form-select" id="designNeckline">
+                  <option value="Boat Neck with Slit">Boat Neck with Slit</option>
+                  <option value="Round Neck with Potli Buttons">Round Neck with Potli Buttons</option>
+                  <option value="Mandarin / Ban Collar">Mandarin / Ban Collar</option>
+                  <option value="Angrakha Wrap Neckline">Angrakha Wrap Neckline</option>
+                  <option value="Sweetheart Neckline">Sweetheart Neckline</option>
+                  <option value="V-Neck with Laces">V-Neck with Laces</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Sleeve Cut</label>
+                <select class="form-select" id="designSleeves">
+                  <option value="Straight with Embroidered Cuffs">Straight with Embroidered Cuffs</option>
+                  <option value="Bell Sleeves with Organza Frill">Bell Sleeves with Organza Frill</option>
+                  <option value="Classic Full Sleeves">Classic Full Sleeves</option>
+                  <option value="Cuffed Sleeves with Buttons">Cuffed Sleeves with Buttons</option>
+                  <option value="3/4 Sleeves with Scallop">3/4 Sleeves with Scallop</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Trouser / Bottom</label>
+                <select class="form-select" id="designTrouser">
+                  <option value="Straight Pants with Pintucks">Straight Pants with Pintucks</option>
+                  <option value="Traditional Shalwar">Traditional Shalwar</option>
+                  <option value="Cigarette Pants with Slit">Cigarette Pants with Slit</option>
+                  <option value="Tulip Shalwar">Tulip Shalwar</option>
+                  <option value="Wide Leg Culottes">Wide Leg Culottes</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Quick Modifiers -->
+            <div class="form-label" style="margin-bottom: 0.35rem;">Quick Modifiers:</div>
+            <div class="modifiers-wrap">
+              <button type="button" class="mod-btn" onclick="window.applyModifier('Add delicate resham embroidery on neckline and sleeves')">✨ Add Embroidery</button>
+              <button type="button" class="mod-btn" onclick="window.applyModifier('Make it cleaner, minimalist, and suitable for office wear')">🌿 Make Simpler</button>
+              <button type="button" class="mod-btn" onclick="window.applyModifier('Add heavy gold tilla work, organza patch, and luxury formal finishes')">👑 Make Formal</button>
+              <button type="button" class="mod-btn" onclick="window.applyModifier('Switch to pastel mint green and pearl ivory palette')">🎨 Mint Pastel Palette</button>
+            </div>
+
+            <button class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;" onclick="window.generateAIDesign()" id="btnGenerateDesign">
+              ✨ Generate AI Bespoke Design
+            </button>
+          </div>
+
+          <!-- Tab B: Vision Image Breakdown Panel -->
+          <div class="panel-card" id="designVisionPanel" style="display: none;">
+            <h3 class="panel-title">Turn Picture Into Tailor Design</h3>
+            <p class="panel-subtitle">Upload any inspiration image from Instagram, Pinterest, or your gallery. Gemini Multimodal Vision will decompose it into tailor instructions.</p>
+
+            <div style="border: 2px dashed var(--border-gold); padding: 1.5rem; text-align: center; border-radius: var(--radius-md); background: var(--bg-surface); margin-bottom: 1rem;">
+              <input type="file" id="visionImageInput" accept="image/*" style="display: none;" onchange="window.handleVisionImageUpload(event)">
+              <div id="visionUploadPrompt">
+                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📸</div>
+                <strong>Click to Upload Garment Photo</strong>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">Supports JPG, PNG, WEBP</p>
+                <button type="button" class="btn btn-outline-dark btn-sm" style="margin-top: 0.75rem;" onclick="document.getElementById('visionImageInput').click()">
+                  Select Photo
+                </button>
+              </div>
+              <img id="visionImagePreview" style="max-height: 220px; max-width: 100%; border-radius: var(--radius-sm); display: none; margin: 0 auto;">
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+              <span style="font-size: 0.8rem; color: var(--text-muted);">Or test with a sample outfit:</span>
+              <div style="display: flex; gap: 0.5rem; margin-top: 0.4rem; flex-wrap: wrap;">
+                <button type="button" class="mod-btn" onclick="window.loadSampleVision('lawn')">Sample 1: Festive Lawn Suit</button>
+                <button type="button" class="mod-btn" onclick="window.loadSampleVision('kurta')">Sample 2: Men's Boski Kurta</button>
+                <button type="button" class="mod-btn" onclick="window.loadSampleVision('bridal')">Sample 3: Velvet Kurti</button>
+              </div>
+            </div>
+
+            <button class="btn btn-emerald" style="width: 100%;" onclick="window.analyzeVisionImage()" id="btnAnalyzeVision">
+              🔍 Run AI Vision Analysis
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Panel: Design Spec Card & Order Action -->
+        <div>
+          <div class="panel-card" style="position: sticky; top: 90px;">
+            <div class="panel-title" style="justify-content: space-between;">
+              <span>Tailor-Ready Design Spec</span>
+              <span class="spec-badge" id="designSpecStatusBadge">AI Generated</span>
+            </div>
+            
+            <div id="designSpecContent">
+              <!-- Active Generated Design Content -->
+              <div class="spec-header">
+                <div class="spec-title" id="specDesignTitle">Emerald Breeze Festive Lawn Suit</div>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;" id="specDesignSummary">
+                  A regal emerald green 3-piece suit featuring an exquisite boat neck with potli buttons and scalloped embroidered cuffs.
+                </p>
+                <div class="color-swatches" id="specColorSwatches">
+                  <div class="swatch" style="background: #0B2B26;" title="Deep Emerald"></div>
+                  <div class="swatch" style="background: #D4AF37;" title="Imperial Gold"></div>
+                  <div class="swatch" style="background: #FAF8F5;" title="Silk Ivory"></div>
+                  <div class="swatch" style="background: #2D5A4C;" title="Forest Moss"></div>
+                </div>
+              </div>
+
+              <div class="spec-list">
+                <div class="spec-item">
+                  <strong>Garment:</strong>
+                  <span id="specGarment">3-Piece Lawn Suit</span>
+                </div>
+                <div class="spec-item">
+                  <strong>Neckline:</strong>
+                  <span id="specNeck">Boat Neck with Slit</span>
+                </div>
+                <div class="spec-item">
+                  <strong>Sleeves:</strong>
+                  <span id="specSleeves">Straight with Embroidered Cuffs</span>
+                </div>
+                <div class="spec-item">
+                  <strong>Trouser:</strong>
+                  <span id="specTrouser">Straight Pants with 3 Pintucks</span>
+                </div>
+                <div class="spec-item">
+                  <strong>Dupatta:</strong>
+                  <span id="specDupatta">Chiffon with 4-Side Lace</span>
+                </div>
+                <div class="spec-item">
+                  <strong>Fabric Yardage:</strong>
+                  <span id="specYardage">4.5 Gaz (approx 4.25m)</span>
+                </div>
+              </div>
+
+              <div style="background: var(--primary-50); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.85rem; margin: 1rem 0; font-size: 0.82rem;">
+                <strong style="color: var(--primary-800); display: block; margin-bottom: 0.25rem;">Tailor Construction Notes:</strong>
+                <span id="specTailorNotes">Pre-shrink lawn before cutting. Keep 2 inches seam allowance at side chaaks. Use matching silk edge piping.</span>
+              </div>
+
+              <div style="display: flex; gap: 0.75rem; margin-top: 1.25rem;">
+                <button class="btn btn-primary" style="flex: 1;" onclick="window.startOrderFromDesign()">
+                  🪡 Order This Design
+                </button>
+                <button class="btn btn-outline-dark" onclick="window.saveDesignToAccount()">
+                  ❤️ Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. REMOTE MEASUREMENT STUDIO VIEW -->
+    <section class="app-view" id="view-measure">
+      <div class="section-title-wrap" style="text-align: left; margin-bottom: 1.5rem;">
+        <div class="section-eyebrow">Privacy-First Precision</div>
+        <h2 class="section-heading">Remote <em>Measurement Studio</em></h2>
+        <p style="color: var(--text-secondary); margin-top: 0.25rem;">
+          Get tailored measurements without stepping out of your house. Camera pose detection, garment scan, or multi-profile wallet.
+        </p>
+      </div>
+
+      <!-- Tabs -->
+      <div class="measurement-tabs">
+        <button class="tab-btn active" id="tabMeasureCameraBtn" onclick="window.switchMeasureTab('camera')">📸 Measure With Camera</button>
+        <button class="tab-btn" id="tabMeasureClothesBtn" onclick="window.switchMeasureTab('clothes')">👕 Measure From My Clothes</button>
+        <button class="tab-btn" id="tabMeasureWalletBtn" onclick="window.switchMeasureTab('wallet')">👛 Saved Measurement Wallet</button>
+      </div>
+
+      <!-- Tab 1: Camera Pose Measurement -->
+      <div id="measureCameraSection">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+          <div>
+            <div class="camera-container" id="cameraContainer">
+              <video id="webcamVideo" class="camera-feed" autoplay playsinline muted style="display: none;"></video>
+              <img id="simulatedPoseImg" class="camera-feed" src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80" alt="Pose Guide">
+              
+              <!-- Silhouette Overlay & Animated Landmark Dots -->
+              <div class="silhouette-overlay" id="landmarkOverlay">
+                <div class="landmark-dot" style="top: 22%; left: 42%;" title="Shoulder Left"></div>
+                <div class="landmark-dot" style="top: 22%; left: 58%;" title="Shoulder Right"></div>
+                <div class="landmark-dot" style="top: 35%; left: 50%;" title="Chest Center"></div>
+                <div class="landmark-dot" style="top: 45%; left: 50%;" title="Waist Center"></div>
+                <div class="landmark-dot" style="top: 55%; left: 50%;" title="Hips"></div>
+                <div class="landmark-dot" style="top: 48%; left: 33%;" title="Wrist Left"></div>
+                <div class="landmark-dot" style="top: 48%; left: 67%;" title="Wrist Right"></div>
+                <div class="landmark-dot" style="top: 88%; left: 45%;" title="Ankle Left"></div>
+                <div class="landmark-dot" style="top: 88%; left: 55%;" title="Ankle Right"></div>
+              </div>
+
+              <div class="camera-guide-prompt" id="cameraGuidePrompt">
+                ✓ Guided Pose: Stand straight, arms 15° from sides
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem; justify-content: center;">
+              <button class="btn btn-outline-dark btn-sm" onclick="window.toggleCameraSource()">
+                🔄 Toggle Webcam / Sample
+              </button>
+              <button class="btn btn-primary btn-sm" onclick="window.captureAndEstimatePose()">
+                ⚡ Scan Landmarks & Estimate
+              </button>
+            </div>
+
+            <div class="privacy-alert-box" style="margin-top: 1rem;">
+              <div class="privacy-icon" style="font-size: 1rem; width: 34px; height: 34px;">🔒</div>
+              <div class="privacy-text" style="font-size: 0.8rem;">
+                <strong>Camera Privacy Lock:</strong> Video feed is analyzed locally in browser memory. Photos are never uploaded or shown to tailors.
+              </div>
+            </div>
+          </div>
+
+          <!-- Measurement Adjustment Sliders -->
+          <div>
+            <div class="panel-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <h3 class="panel-title" style="margin-bottom: 0;">Verified Measurements</h3>
+                <span class="spec-badge" style="background: #E6F8F0; color: #0C6B46;">Confidence: 96%</span>
+              </div>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                AI provides initial estimation. You can slide or type to fine-tune to your comfort before saving.
+              </p>
+
+              <div class="measurements-grid" style="grid-template-columns: 1fr 1fr; margin: 0 0 1rem 0;">
+                <div class="measure-input-card">
+                  <div class="measure-header">
+                    <span class="measure-name">Kameez Length</span>
+                    <span class="measure-urdu">قمیض لمبائی</span>
+                  </div>
+                  <div class="measure-val-wrap">
+                    <input type="range" class="measure-slider" min="32" max="50" step="0.5" value="39.5" oninput="window.updateMeasurementValue('kameezLength', this.value)">
+                    <input type="number" class="measure-num-box" id="inp-kameezLength" value="39.5" onchange="window.updateMeasurementValue('kameezLength', this.value)">
+                  </div>
+                </div>
+
+                <div class="measure-input-card">
+                  <div class="measure-header">
+                    <span class="measure-name">Teera (Shoulder)</span>
+                    <span class="measure-urdu">تیرہ</span>
+                  </div>
+                  <div class="measure-val-wrap">
+                    <input type="range" class="measure-slider" min="12" max="22" step="0.5" value="14.5" oninput="window.updateMeasurementValue('teera', this.value)">
+                    <input type="number" class="measure-num-box" id="inp-teera" value="14.5" onchange="window.updateMeasurementValue('teera', this.value)">
+                  </div>
+                </div>
+
+                <div class="measure-input-card">
+                  <div class="measure-header">
+                    <span class="measure-name">Chaati (Chest)</span>
+                    <span class="measure-urdu">چھاتی</span>
+                  </div>
+                  <div class="measure-val-wrap">
+                    <input type="range" class="measure-slider" min="30" max="54" step="0.5" value="37.0" oninput="window.updateMeasurementValue('chest', this.value)">
+                    <input type="number" class="measure-num-box" id="inp-chest" value="37.0" onchange="window.updateMeasurementValue('chest', this.value)">
+                  </div>
+                </div>
+
+                <div class="measure-input-card">
+                  <div class="measure-header">
+                    <span class="measure-name">Kamar (Waist)</span>
+                    <span class="measure-urdu">کمر</span>
+                  </div>
+                  <div class="measure-val-wrap">
+                    <input type="range" class="measure-slider" min="24" max="50" step="0.5" value="31.0" oninput="window.updateMeasurementValue('waist', this.value)">
+                    <input type="number" class="measure-num-box" id="inp-waist" value="31.0" onchange="window.updateMeasurementValue('waist', this.value)">
+                  </div>
+                </div>
+
+                <div class="measure-input-card">
+                  <div class="measure-header">
+                    <span class="measure-name">Daman (Flare)</span>
+                    <span class="measure-urdu">دامن</span>
+                  </div>
+                  <div class="measure-val-wrap">
+                    <input type="range" class="measure-slider" min="18" max="36" step="0.5" value="23.5" oninput="window.updateMeasurementValue('daman', this.value)">
+                    <input type="number" class="measure-num-box" id="inp-daman" value="23.5" onchange="window.updateMeasurementValue('daman', this.value)">
+                  </div>
+                </div>
+
+                <div class="measure-input-card">
+                  <div class="measure-header">
+                    <span class="measure-name">Sleeves (Bazu)</span>
+                    <span class="measure-urdu">بازو لمبائی</span>
+                  </div>
+                  <div class="measure-val-wrap">
+                    <input type="range" class="measure-slider" min="15" max="28" step="0.5" value="21.0" oninput="window.updateMeasurementValue('sleevesLength', this.value)">
+                    <input type="number" class="measure-num-box" id="inp-sleevesLength" value="21.0" onchange="window.updateMeasurementValue('sleevesLength', this.value)">
+                  </div>
+                </div>
+
+                <div class="measure-input-card">
+                  <div class="measure-header">
+                    <span class="measure-name">Trouser Length</span>
+                    <span class="measure-urdu">شلوار / ٹراؤزر</span>
+                  </div>
+                  <div class="measure-val-wrap">
+                    <input type="range" class="measure-slider" min="30" max="48" step="0.5" value="37.5" oninput="window.updateMeasurementValue('trouserLength', this.value)">
+                    <input type="number" class="measure-num-box" id="inp-trouserLength" value="37.5" onchange="window.updateMeasurementValue('trouserLength', this.value)">
+                  </div>
+                </div>
+
+                <div class="measure-input-card">
+                  <div class="measure-header">
+                    <span class="measure-name">Paincha (Bottom)</span>
+                    <span class="measure-urdu">پانچہ</span>
+                  </div>
+                  <div class="measure-val-wrap">
+                    <input type="range" class="measure-slider" min="5" max="12" step="0.5" value="6.5" oninput="window.updateMeasurementValue('paincha', this.value)">
+                    <input type="number" class="measure-num-box" id="inp-paincha" value="6.5" onchange="window.updateMeasurementValue('paincha', this.value)">
+                  </div>
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 0.75rem;">
+                <button class="btn btn-primary" style="flex: 1;" onclick="window.saveActiveMeasurementsToWallet()">
+                  💾 Save to Measurement Wallet
+                </button>
+                <button class="btn btn-emerald" onclick="window.navigateTo('tailors')">
+                  Book Tailor
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Measure From My Clothes -->
+      <div id="measureClothesSection" style="display: none;">
+        <div class="panel-card" style="max-width: 800px; margin: 0 auto;">
+          <h3 class="panel-title">Measure From Your Best-Fitting Clothes</h3>
+          <p class="panel-subtitle">
+            Don't want to measure your body? Simply lay your best-fitting kameez or kurta flat on a bed or table. Place a standard credit card or CNIC beside it for scale calibration.
+          </p>
+
+          <div style="border: 2px dashed var(--border-subtle); border-radius: var(--radius-md); padding: 2rem; text-align: center; margin-bottom: 1.5rem; background: var(--bg-surface);">
+            <div style="font-size: 3rem; margin-bottom: 0.5rem;">📐</div>
+            <h4>Flat Garment Scanner with Calibration</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">
+              Place garment flat without wrinkles. Computer vision detects seam-to-seam shoulder, chest, waist, and flare.
+            </p>
+            <button class="btn btn-emerald btn-sm" style="margin-top: 1rem;" onclick="window.simulateGarmentScan()">
+              📷 Upload or Scan Flat Garment
+            </button>
+          </div>
+
+          <div id="garmentScanResult" style="display: none; background: var(--primary-50); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-gold);">
+            <h4 style="color: var(--primary-800); margin-bottom: 0.5rem;">Garment Dimensions Extracted:</h4>
+            <ul style="font-size: 0.9rem; line-height: 1.8; margin-left: 1.5rem;">
+              <li>Shoulder Width (Teera): <strong>14.5 inches</strong></li>
+              <li>Chest Width (Armhole to Armhole): <strong>18.5 inches (Total 37")</strong></li>
+              <li>Waist Width: <strong>15.5 inches (Total 31")</strong></li>
+              <li>Hemline Daman: <strong>23.5 inches</strong></li>
+              <li>Sleeve Length: <strong>21.0 inches</strong></li>
+            </ul>
+            <button class="btn btn-primary btn-sm" style="margin-top: 1rem;" onclick="window.saveActiveMeasurementsToWallet()">
+              Apply to Wallet
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 3: Saved Measurement Wallet -->
+      <div id="measureWalletSection" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <h3 class="panel-title" style="margin-bottom: 0;">Your Measurement Profiles</h3>
+          <button class="btn btn-primary btn-sm" onclick="window.addNewProfileModal()">
+            + Add New Person (Ammi, Abba, Sister)
+          </button>
+        </div>
+
+        <div class="tailors-grid" id="walletProfilesGrid">
+          <!-- Populated from API -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. MY ORDERS VIEW (13 STAGES TRACKER) -->
+    <section class="app-view" id="view-orders">
+      <div class="section-title-wrap" style="text-align: left; margin-bottom: 1.5rem;">
+        <div class="section-eyebrow">Real-Time Progress</div>
+        <h2 class="section-heading">My Tailoring <em>Orders</em></h2>
+        <p style="color: var(--text-secondary); margin-top: 0.25rem;">
+          Follow your suits live across all 13 stitching stages from cutting to doorstep delivery.
+        </p>
+      </div>
+
+      <div id="ordersListContainer">
+        <!-- Injected via JavaScript -->
+      </div>
+    </section>
+
+    <!-- 6. CHAT & AI ASSISTANT VIEW -->
+    <section class="app-view" id="view-chat">
+      <div class="section-title-wrap" style="text-align: left; margin-bottom: 1.5rem;">
+        <div class="section-eyebrow">Instant Tailoring Assistance</div>
+        <h2 class="section-heading">Darzi AI & <em>Tailor Messaging</em></h2>
+      </div>
+
+      <div class="chat-container">
+        <!-- Sidebar -->
+        <div class="chat-sidebar">
+          <div class="chat-tab-select">
+            <button class="btn btn-sm btn-primary" id="chatTabAIBtn" style="flex: 1;" onclick="window.switchChatTab('ai')">
+              🤖 Darzi AI
+            </button>
+            <button class="btn btn-sm btn-outline-dark" id="chatTabTailorBtn" style="flex: 1;" onclick="window.switchChatTab('tailor')">
+              🪡 Tailors
+            </button>
+          </div>
+
+          <div style="padding: 1rem; overflow-y: auto; flex: 1;" id="chatSidebarConversations">
+            <div style="padding: 0.75rem; border-radius: var(--radius-sm); background: var(--primary-50); cursor: pointer; margin-bottom: 0.5rem;" onclick="window.switchChatTab('ai')">
+              <strong>Darzi AI Concierge</strong>
+              <p style="font-size: 0.78rem; color: var(--text-muted);">Urdu & English Fashion Specialist</p>
+            </div>
+            <div style="padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); cursor: pointer;" onclick="window.switchChatTab('tailor')">
+              <strong>Madam Kainat (Noor-e-Kainat)</strong>
+              <p style="font-size: 0.78rem; color: var(--text-muted);">Order #AD-2026-891 (Stitching)</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="chat-main">
+          <div class="chat-header">
+            <div>
+              <strong id="activeChatTitle">Darzi AI Concierge</strong>
+              <p style="font-size: 0.78rem; color: var(--text-muted);" id="activeChatSubtitle">Multilingual (English, Roman Urdu, Urdu)</p>
+            </div>
+            <button class="btn btn-outline-dark btn-sm" onclick="window.generateChatOrderBrief()">
+              📋 Create Order Brief
+            </button>
+          </div>
+
+          <div class="chat-messages" id="chatMessagesBox">
+            <!-- Messages injected dynamically -->
+          </div>
+
+          <!-- Quick Suggestion Pills -->
+          <div style="padding: 0.5rem 1.25rem; display: flex; gap: 0.5rem; overflow-x: auto; background: var(--bg-surface); border-top: 1px solid var(--border-subtle);" id="chatQuickPills">
+            <button class="chip" onclick="window.sendPredefinedMessage('Eid ke liye 3 piece lawn suit design suggest karo')">Eid Design?</button>
+            <button class="chip" onclick="window.sendPredefinedMessage('Suit ke liye kitne gaz kapra chahiye?')">Kitne Gaz?</button>
+            <button class="chip" onclick="window.sendPredefinedMessage('Teera aur daman ka naap kaise lete hain?')">Naap Guide?</button>
+          </div>
+
+          <div class="chat-input-bar">
+            <input type="text" class="chat-input" id="chatTextInput" placeholder="Type in English, Roman Urdu (jaise: Eid ka design bana do), ya Urdu..." onkeydown="if(event.key==='Enter') window.sendMessage()">
+            <button class="btn btn-primary btn-sm" onclick="window.sendMessage()">Send</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. TAILOR WORKSPACE (TAILOR ROLE VIEW) -->
+    <section class="app-view" id="view-workspace">
+      <div class="section-title-wrap" style="text-align: left; margin-bottom: 1.5rem;">
+        <div class="section-eyebrow">Master Tailor Suite</div>
+        <h2 class="section-heading">Workshop <em>Order Pipeline</em></h2>
+        <p style="color: var(--text-secondary); margin-top: 0.25rem;">
+          Manage cutting, stitching, customer measurement sheets, and update 13-stage order status.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+        <div class="panel-card" style="padding: 1.25rem;">
+          <div style="font-size: 0.8rem; color: var(--text-muted);">Active Stitching</div>
+          <div style="font-size: 1.8rem; font-weight: 800; color: var(--primary-800);">6 Suits</div>
+        </div>
+        <div class="panel-card" style="padding: 1.25rem;">
+          <div style="font-size: 0.8rem; color: var(--text-muted);">Pending Review</div>
+          <div style="font-size: 1.8rem; font-weight: 800; color: var(--gold-600);">2 Orders</div>
+        </div>
+        <div class="panel-card" style="padding: 1.25rem;">
+          <div style="font-size: 0.8rem; color: var(--text-muted);">Ready for Delivery</div>
+          <div style="font-size: 1.8rem; font-weight: 800; color: #0C6B46;">4 Suits</div>
+        </div>
+        <div class="panel-card" style="padding: 1.25rem;">
+          <div style="font-size: 0.8rem; color: var(--text-muted);">This Month's Earnings</div>
+          <div style="font-size: 1.8rem; font-weight: 800; color: var(--primary-800);">PKR 142,500</div>
+        </div>
+      </div>
+
+      <div class="panel-card">
+        <h3 class="panel-title" style="margin-bottom: 1rem;">Incoming & Active Orders</h3>
+        <div style="overflow-x: auto;">
+          <table class="data-table" id="tailorOrdersTable">
+            <thead>
+              <tr>
+                <th>Order #</th>
+                <th>Customer</th>
+                <th>Garment</th>
+                <th>Current Status</th>
+                <th>Action: Advance Stage</th>
+                <th>Measurements</th>
+              </tr>
+            </thead>
+            <tbody id="tailorOrdersTableBody">
+              <!-- Populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. ADMIN DASHBOARD (ADMIN ROLE VIEW) -->
+    <section class="app-view" id="view-admin">
+      <div class="section-title-wrap" style="text-align: left; margin-bottom: 1.5rem;">
+        <div class="section-eyebrow">Platform Administration</div>
+        <h2 class="section-heading">AI Darzi <em>Control Center</em></h2>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+        <div class="panel-card" style="padding: 1.25rem;">
+          <div style="font-size: 0.8rem; color: var(--text-muted);">Platform GMV</div>
+          <div style="font-size: 1.8rem; font-weight: 800; color: var(--primary-800);" id="adminGmv">PKR 485,000</div>
+        </div>
+        <div class="panel-card" style="padding: 1.25rem;">
+          <div style="font-size: 0.8rem; color: var(--text-muted);">Platform Commission</div>
+          <div style="font-size: 1.8rem; font-weight: 800; color: var(--gold-600);" id="adminRev">PKR 48,500</div>
+        </div>
+        <div class="panel-card" style="padding: 1.25rem;">
+          <div style="font-size: 0.8rem; color: var(--text-muted);">Active Tailors</div>
+          <div style="font-size: 1.8rem; font-weight: 800; color: var(--primary-800);" id="adminTailors">5 Verified</div>
+        </div>
+        <div class="panel-card" style="padding: 1.25rem;">
+          <div style="font-size: 0.8rem; color: var(--text-muted);">Gemini AI Generations</div>
+          <div style="font-size: 1.8rem; font-weight: 800; color: #0C6B46;">1,420 Prompts</div>
+        </div>
+      </div>
+
+      <div class="panel-card" style="margin-bottom: 2rem;">
+        <h3 class="panel-title" style="margin-bottom: 1rem;">Verified Master Tailors Verification Panel</h3>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Business Name</th>
+              <th>Master Tailor</th>
+              <th>City</th>
+              <th>Rating</th>
+              <th>Orders</th>
+              <th>Verified Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="adminTailorsTableBody">
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <div class="mobile-bottom-bar">
+    <button class="mobile-nav-btn active" onclick="window.navigateTo('home')" data-mnav="home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      Home
+    </button>
+    <button class="mobile-nav-btn" onclick="window.navigateTo('tailors')" data-mnav="tailors">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Tailors
+    </button>
+    <button class="mobile-nav-btn" onclick="window.navigateTo('design')" data-mnav="design">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      AI Studio
+    </button>
+    <button class="mobile-nav-btn" onclick="window.navigateTo('measure')" data-mnav="measure">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      Measure
+    </button>
+    <button class="mobile-nav-btn" onclick="window.navigateTo('orders')" data-mnav="orders">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg>
+      Orders
+    </button>
+    <button class="mobile-nav-btn" onclick="window.navigateTo('chat')" data-mnav="chat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Chat
+    </button>
+  </div>
+
+  <!-- 9-Step Order Creation Wizard Modal -->
+  <div class="modal-backdrop" id="orderWizardModal" style="display: none;">
+    <div class="modal-content">
+      <button class="modal-close-btn" onclick="window.closeOrderWizard()">✕</button>
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem; margin-bottom: 1.25rem;">
+        <div>
+          <h3 class="panel-title" style="margin-bottom: 0;">Tailoring Order Wizard</h3>
+          <span style="font-size: 0.8rem; color: var(--text-muted);" id="wizardStepIndicator">Step 1 of 9 — Select Garment</span>
+        </div>
+        <span class="spec-badge" id="wizardTailorBadge">Master Rafiq</span>
+      </div>
+
+      <div id="wizardStepContent">
+        <!-- Injected dynamically per step -->
+      </div>
+
+      <div style="display: flex; justify-content: space-between; margin-top: 1.75rem; border-top: 1px solid var(--border-subtle); padding-top: 1rem;">
+        <button class="btn btn-outline-dark btn-sm" id="wizardPrevBtn" onclick="window.wizardPrevStep()">Back</button>
+        <button class="btn btn-primary btn-sm" id="wizardNextBtn" onclick="window.wizardNextStep()">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tailor Storefront Modal -->
+  <div class="modal-backdrop" id="tailorStorefrontModal" style="display: none;">
+    <div class="modal-content" style="max-width: 850px;">
+      <button class="modal-close-btn" onclick="window.closeTailorStorefront()">✕</button>
+      <div id="tailorStorefrontContent">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Tailor Order Sheet Modal -->
+  <div class="modal-backdrop" id="orderSheetModal" style="display: none;">
+    <div class="modal-content">
+      <button class="modal-close-btn" onclick="window.closeOrderSheetModal()">✕</button>
+      <h3 class="panel-title" style="margin-bottom: 1rem;">Official Tailor Order Sheet</h3>
+      <div class="order-sheet-paper" id="orderSheetModalText">
+        <!-- Order sheet text -->
+      </div>
+      <div style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.25rem;">
+        <button class="btn btn-outline-dark btn-sm" onclick="window.copyOrderSheet()">📋 Copy Text</button>
+        <button class="btn btn-primary btn-sm" onclick="window.printOrderSheet()">🖨️ Print Sheet</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Authentication Modal (Login / Sign Up) -->
+  <div class="modal-backdrop" id="authModal" style="display: none;">
+    <div class="modal-content" style="max-width: 480px;">
+      <button class="modal-close-btn" onclick="window.closeAuthModal()">✕</button>
+      
+      <div style="text-align: center; margin-bottom: 1.25rem;">
+        <div style="font-size: 2rem; margin-bottom: 0.25rem;">🪡</div>
+        <h3 class="panel-title" style="justify-content: center; margin-bottom: 0.25rem;">AI Darzi Account</h3>
+        <p style="font-size: 0.85rem; color: var(--text-secondary);">Sign in to access saved measurements, AI designs & active orders.</p>
+      </div>
+
+      <!-- Tabs: Sign In / Create Account -->
+      <div class="measurement-tabs" style="margin-bottom: 1.25rem;">
+        <button class="tab-btn active" id="authTabLoginBtn" onclick="window.switchAuthTab('login')">Sign In</button>
+        <button class="tab-btn" id="authTabRegisterBtn" onclick="window.switchAuthTab('register')">Create Account</button>
+      </div>
+
+      <!-- Form A: Login -->
+      <div id="authLoginForm">
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Email Address</label>
+          <input type="email" class="form-input" id="loginEmailInput" placeholder="e.g. amina.khan@example.com" required>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-input" id="loginPasswordInput" placeholder="Enter your password" required onkeydown="if(event.key==='Enter') window.submitLoginForm()">
+        </div>
+
+        <div id="authLoginError" style="display: none; background: #FFF1F0; border: 1px solid #FFA39E; color: #CF1322; padding: 0.6rem 0.85rem; border-radius: var(--radius-sm); font-size: 0.82rem; margin-bottom: 1rem;"></div>
+
+        <button class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;" id="btnSubmitLogin" onclick="window.submitLoginForm()">
+          Sign In
+        </button>
+
+        <!-- Quick One-Click Demo Logins -->
+        <div style="border-top: 1px dashed var(--border-subtle); padding-top: 1rem;">
+          <div style="font-size: 0.78rem; color: var(--text-muted); text-align: center; margin-bottom: 0.6rem;">⚡ Fast Demo Logins (Click to Test):</div>
+          <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+            <button type="button" class="btn btn-outline-dark btn-sm" style="font-size: 0.78rem; justify-content: flex-start;" onclick="window.quickLogin('customer')">
+              👩 Customer: Amina Khan (Karachi)
+            </button>
+            <button type="button" class="btn btn-outline-dark btn-sm" style="font-size: 0.78rem; justify-content: flex-start;" onclick="window.quickLogin('tailor')">
+              🪡 Tailor: Master Muhammad Rafiq (Lahore)
+            </button>
+            <button type="button" class="btn btn-outline-dark btn-sm" style="font-size: 0.78rem; justify-content: flex-start;" onclick="window.quickLogin('admin')">
+              🛡️ Platform Administrator
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form B: Register -->
+      <div id="authRegisterForm" style="display: none;">
+        <div class="form-group" style="margin-bottom: 0.85rem;">
+          <label class="form-label">Full Name</label>
+          <input type="text" class="form-input" id="regNameInput" placeholder="e.g. Fatima Ali" required>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0.85rem;">
+          <label class="form-label">Email Address</label>
+          <input type="email" class="form-input" id="regEmailInput" placeholder="e.g. fatima@example.com" required>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0.85rem;">
+          <label class="form-label">Password (min 6 characters)</label>
+          <input type="password" class="form-input" id="regPasswordInput" placeholder="Create a secure password" required>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.85rem;">
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input type="tel" class="form-input" id="regPhoneInput" placeholder="+92 300 1234567">
+          </div>
+          <div class="form-group">
+            <label class="form-label">City</label>
+            <select class="form-select" id="regCityInput">
+              <option value="Lahore">Lahore</option>
+              <option value="Karachi">Karachi</option>
+              <option value="Islamabad">Islamabad</option>
+              <option value="Rawalpindi">Rawalpindi</option>
+              <option value="Faisalabad">Faisalabad</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">I want to register as:</label>
+          <select class="form-select" id="regRoleInput" onchange="document.getElementById('regBusinessWrap').style.display = this.value === 'tailor' ? 'block' : 'none'">
+            <option value="customer">Customer (Order custom stitching & AI designs)</option>
+            <option value="tailor">Master Tailor / Boutique Owner</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="regBusinessWrap" style="display: none; margin-bottom: 1rem;">
+          <label class="form-label">Tailor / Boutique Business Name</label>
+          <input type="text" class="form-input" id="regBusinessInput" placeholder="e.g. Gulberg Royal Stitching Studio">
+        </div>
+
+        <div id="authRegisterError" style="display: none; background: #FFF1F0; border: 1px solid #FFA39E; color: #CF1322; padding: 0.6rem 0.85rem; border-radius: var(--radius-sm); font-size: 0.82rem; margin-bottom: 1rem;"></div>
+
+        <button class="btn btn-primary" style="width: 100%;" id="btnSubmitRegister" onclick="window.submitRegisterForm()">
+          Create Free Account
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Application Scripts -->
+  <script src="js/translations.js"></script>
+  <script src="js/aiStudio.js"></script>
+  <script src="js/measurementAssistant.js"></script>
+  <script src="js/tailorMarketplace.js"></script>
+  <script src="js/orderWizard.js"></script>
+  <script src="js/orderTracker.js"></script>
+  <script src="js/chatSystem.js"></script>
+  <script src="js/tailorWorkspace.js"></script>
+  <script src="js/adminDashboard.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
