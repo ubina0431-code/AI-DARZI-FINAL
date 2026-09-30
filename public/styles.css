@@ -1251,15 +1251,6 @@ body.dark-mode .stage-step.active .stage-label {
   box-shadow: var(--shadow-md);
 }
 
-@media (max-width: 768px) {
-  .chat-container {
-    grid-template-columns: 1fr;
-    height: 520px;
-  }
-  .chat-sidebar {
-    display: none;
-  }
-}
 
 .chat-sidebar {
   border-right: 1px solid var(--border-subtle);
@@ -1293,6 +1284,7 @@ body.dark-mode .stage-step.active .stage-label {
 .chat-messages {
   flex: 1;
   overflow-y: auto;
+  min-height: 0; /* critical: lets flex shrink the messages area so it scrolls */
   padding: 1.25rem;
   display: flex;
   flex-direction: column;
@@ -1716,23 +1708,59 @@ body.dark-mode .mobile-nav-btn.active {
     padding: 1.25rem 1rem;
   }
 
-  /* ── Chat Container ──────────────────────────────────── */
+  /* ── Chat View: full-screen flex column on mobile ───── */
+  /* The section fills the viewport between navbar (≈58px) and bottom-nav (64px).
+     Using 100dvh so the visible height shrinks correctly when the OS keyboard
+     appears, keeping the input bar always on-screen. */
+  #view-chat {
+    display: flex !important;
+    flex-direction: column;
+    height: calc(100dvh - 58px - 64px);
+    /* disable the top padding so the chat box really does go edge-to-edge */
+    margin-top: -1rem;
+    overflow: hidden;
+  }
+
+  /* Remove the heading section on mobile to give chat maximum space */
+  #view-chat > .section-title-wrap {
+    display: none;
+  }
+
+  /* ── Chat Container fills remaining height ────────────── */
   .chat-container {
     grid-template-columns: 1fr;
-    height: 75vh;
-    min-height: 480px;
+    flex: 1;           /* grow to fill #view-chat */
+    height: 100%;      /* explicit height lets children use height: 100% */
+    min-height: 0;     /* flex-shrink fix */
+    border-radius: 0;  /* edge-to-edge on phone */
   }
 
   .chat-sidebar {
     display: none;
   }
 
+  /* chat-main already has display:flex; flex-direction:column; height:100% */
+  /* Messages area scrolls inside the fixed-height container */
+  .chat-messages {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .chat-input-bar {
     padding: 0.75rem 1rem;
+    /* stay at the natural bottom of flex column; OS keyboard raises it */
+    flex-shrink: 0;
   }
 
   .chat-input {
     font-size: 0.85rem;
+  }
+
+  /* Quick pill bar: don't let it collapse */
+  #chatQuickPills {
+    flex-shrink: 0;
   }
 
   /* ── Workspace / Admin Stat Grids ────────────────────── */

@@ -49,6 +49,15 @@ function switchChatTab(mode, tailorId, tailorName) {
   }
 }
 
+function scrollToBottom() {
+  const container = document.getElementById('chatMessagesBox');
+  if (!container) return;
+  // Use requestAnimationFrame so the DOM has painted before we measure scrollHeight
+  requestAnimationFrame(() => {
+    container.scrollTop = container.scrollHeight;
+  });
+}
+
 function renderMessages(messages) {
   const container = document.getElementById('chatMessagesBox');
   if (!container) return;
@@ -62,7 +71,7 @@ function renderMessages(messages) {
     container.appendChild(bubble);
   });
 
-  container.scrollTop = container.scrollHeight;
+  scrollToBottom();
 }
 
 async function sendMessage() {
@@ -83,7 +92,7 @@ async function sendMessage() {
     typingBubble.id = 'aiTypingBubble';
     typingBubble.innerText = 'Darzi AI is thinking in Roman Urdu / English...';
     container.appendChild(typingBubble);
-    container.scrollTop = container.scrollHeight;
+    scrollToBottom();
 
     try {
       const activeDesign = window.getActiveDesign ? window.getActiveDesign() : {};
@@ -139,6 +148,7 @@ async function sendMessage() {
         text: 'Ji baji, message note kar liya hai. Hum poori koshish karein gay ke aapki marzi ke mutabiq exact cutting aur finishing ho.'
       });
       renderMessages(tailorChatHistory);
+      scrollToBottom();
     }, 1200);
   }
 }
