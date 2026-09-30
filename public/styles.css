@@ -87,6 +87,12 @@ body {
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   padding-bottom: 70px; /* Space for mobile nav */
+  overflow-x: hidden; /* Prevent horizontal scrollbar on mobile */
+}
+
+img {
+  max-width: 100%;
+  height: auto;
 }
 
 /* Urdu Language Styling */
@@ -1471,6 +1477,366 @@ body.dark-mode .mobile-nav-btn.active {
 @keyframes slideInRight {
   from { transform: translateX(100%); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
+}
+
+/* ==========================================================================
+   MOBILE RESPONSIVENESS — 360px to 768px
+   Phones: only single-column layouts, readable text, no horizontal scroll
+   ========================================================================== */
+
+@media (max-width: 768px) {
+
+  /* ── Container & Base ────────────────────────────────── */
+  .container {
+    padding: 1rem 0.85rem 5rem 0.85rem; /* extra bottom for mobile nav */
+  }
+
+  /* ── Navbar ──────────────────────────────────────────── */
+  .navbar {
+    padding: 0.6rem 0.85rem;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+  }
+
+  /* Hide desktop nav links (mobile bottom bar replaces them) */
+  .nav-links {
+    display: none;
+  }
+
+  /* Compress brand title on very small screens */
+  .brand-title {
+    font-size: 1.1rem;
+  }
+
+  .brand-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  /* Nav controls: hide role-pill & lang selector to save space;
+     keep auth button + theme toggle */
+  .nav-controls {
+    gap: 0.4rem;
+  }
+
+  .role-pill-group {
+    display: none;
+  }
+
+  .lang-selector {
+    display: none;
+  }
+
+  /* Make auth container wrap tightly */
+  #authNavContainer {
+    gap: 0.3rem !important;
+  }
+
+  #navLoginBtn {
+    font-size: 0.75rem !important;
+    padding: 0.35rem 0.65rem !important;
+    white-space: nowrap;
+  }
+
+  #navUserName {
+    font-size: 0.75rem !important;
+    padding: 0.3rem 0.5rem !important;
+    max-width: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* ── Hero Banner ─────────────────────────────────────── */
+  .hero-banner {
+    padding: 2rem 1.25rem;
+    border-radius: var(--radius-md);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-badge {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.65rem;
+    letter-spacing: 0.5px;
+  }
+
+  .hero-title {
+    font-size: 1.9rem;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.85rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.92rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* ── Privacy Alert Box ───────────────────────────────── */
+  .privacy-alert-box {
+    flex-direction: row;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .privacy-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .privacy-text p {
+    font-size: 0.8rem;
+  }
+
+  /* ── Section Headings ────────────────────────────────── */
+  .section-heading {
+    font-size: 1.6rem;
+  }
+
+  .section-title-wrap {
+    margin-bottom: 1.5rem;
+  }
+
+  /* ── Steps Grid → 1 column ───────────────────────────── */
+  .steps-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .step-card {
+    padding: 1.25rem 1.1rem;
+  }
+
+  /* ── Tailors Grid → 1 column, no min-width overflow ─── */
+  .tailors-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  /* ── Filters Bar ─────────────────────────────────────── */
+  .filters-bar {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+  }
+
+  .search-input-wrap {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .filters-bar > div {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .filters-bar .form-select {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* ── Filter Chips ────────────────────────────────────── */
+  .filter-chips {
+    gap: 0.4rem;
+  }
+
+  .chip {
+    font-size: 0.78rem;
+    padding: 0.35rem 0.7rem;
+  }
+
+  /* ── AI Studio Layout → stack ────────────────────────── */
+  .ai-studio-layout {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  /* Remove sticky positioning that breaks on mobile */
+  .ai-studio-layout > div > .panel-card[style*="sticky"] {
+    position: static !important;
+  }
+
+  /* ── Measurement Tabs ────────────────────────────────── */
+  .measurement-tabs {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .tab-btn {
+    font-size: 0.82rem;
+    padding: 0.45rem 0.85rem;
+  }
+
+  /* ── Camera Pose Section: stack camera + sliders ─────── */
+  #measureCameraSection > div[style*="grid-template-columns: 1fr 1fr"] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.25rem !important;
+  }
+
+  /* ── Measurement Wallet Header ───────────────────────── */
+  #measureWalletSection > div {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.75rem !important;
+  }
+
+  /* ── Measurements Grid → 1 column ───────────────────── */
+  .measurements-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Measurement camera section inner grid */
+  .measurements-grid[style*="1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ── Save buttons ────────────────────────────────────── */
+  .panel-card > div[style*="display: flex; gap: 0.75rem"] {
+    flex-direction: column;
+  }
+
+  /* ── Orders View ─────────────────────────────────────── */
+  .timeline-card {
+    padding: 1.25rem 1rem;
+  }
+
+  /* ── Chat Container ──────────────────────────────────── */
+  .chat-container {
+    grid-template-columns: 1fr;
+    height: 75vh;
+    min-height: 480px;
+  }
+
+  .chat-sidebar {
+    display: none;
+  }
+
+  .chat-input-bar {
+    padding: 0.75rem 1rem;
+  }
+
+  .chat-input {
+    font-size: 0.85rem;
+  }
+
+  /* ── Workspace / Admin Stat Grids ────────────────────── */
+  div[style*="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))"] {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.75rem !important;
+  }
+
+  /* ── Data Tables: allow horizontal scroll ────────────── */
+  .data-table {
+    font-size: 0.78rem;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 0.6rem 0.65rem;
+    white-space: nowrap;
+  }
+
+  /* ── Modals ──────────────────────────────────────────── */
+  .modal-backdrop {
+    padding: 0.75rem;
+    align-items: flex-end; /* slide up from bottom on phone */
+  }
+
+  .modal-content {
+    padding: 1.25rem 1rem;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    max-height: 92vh;
+  }
+
+  /* Register form 2-col grid → 1 col */
+  .modal-content div[style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ── Panel Cards ─────────────────────────────────────── */
+  .panel-card {
+    padding: 1.1rem 1rem;
+  }
+
+  /* ── Attribute Grid (AI Studio selectors) → 1 col ────── */
+  .attr-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  /* ── Buttons ─────────────────────────────────────────── */
+  .btn {
+    font-size: 0.88rem;
+    padding: 0.65rem 1.1rem;
+  }
+
+  /* ── Toast: move above mobile nav bar ───────────────── */
+  .toast-container {
+    bottom: 74px;
+    right: 12px;
+    left: 12px;
+  }
+
+  .toast {
+    font-size: 0.82rem;
+    padding: 0.7rem 1rem;
+  }
+
+  /* ── Tailor Storefront Modal wide content ────────────── */
+  .modal-content[style*="max-width: 850px"] {
+    max-width: 100% !important;
+  }
+
+  /* ── Order Wizard steps flex ─────────────────────────── */
+  .modal-content > div[style*="justify-content: space-between"] {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
+
+/* Extra-tight fix for 360px phones */
+@media (max-width: 400px) {
+  .hero-title {
+    font-size: 1.6rem;
+  }
+
+  .brand-title {
+    font-size: 0.95rem;
+  }
+
+  .section-heading {
+    font-size: 1.35rem;
+  }
+
+  div[style*="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  .mobile-nav-btn {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.65rem;
+  }
+
+  .mobile-nav-btn svg {
+    width: 18px;
+    height: 18px;
+  }
 }
 
 /* Admin Dashboard Table */
